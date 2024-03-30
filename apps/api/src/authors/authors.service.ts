@@ -27,6 +27,7 @@ export class AuthorsService {
       where: {
         id: id,
       },
+      relations: { books: true },
     });
   }
 
