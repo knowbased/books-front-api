@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthorsModule } from './authors/authors.module';
+import { BooksModule } from './books/books.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { AuthorsModule } from './authors/authors.module';
       autoLoadEntities: true,
     }),
     AuthorsModule,
+    BooksModule,
   ],
   controllers: [],
   providers: [],
