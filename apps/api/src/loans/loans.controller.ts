@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  ValidationPipe,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { LoansService } from './loans.service';
 import { CreateLoanDto } from './dto/create-loan.dto';
 import { Loan } from './entities/loan.entity';
@@ -8,7 +17,7 @@ export class LoansController {
   constructor(private readonly loansService: LoansService) {}
 
   @Post()
-  create(@Body() createLoanDto: CreateLoanDto) {
+  create(@Body(ValidationPipe) createLoanDto: CreateLoanDto) {
     return this.loansService.create(createLoanDto);
   }
 
@@ -18,7 +27,7 @@ export class LoansController {
   }
 
   @Patch(':id/return')
-  returnLoan(@Param('id') id: string): Promise<Loan> {
-    return this.loansService.returnLoan(+id);
+  returnLoan(@Param('id', ParseIntPipe) id: number): Promise<Loan> {
+    return this.loansService.returnLoan(id);
   }
 }
