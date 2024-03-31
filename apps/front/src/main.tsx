@@ -9,6 +9,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ErrorDisplay } from "./features/misc/ErrorDisplay";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import CreateBookPage from "./features/books/pages/CreateBookPage";
+import UpdateBookPage from "./features/books/pages/UpdateBookPage";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "/books/create",
         element: <CreateBookPage />,
+      },
+      {
+        path: "/books/update/:id",
+        element: <UpdateBookPage />,
       },
     ],
   },

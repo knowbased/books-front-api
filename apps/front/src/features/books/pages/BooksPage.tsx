@@ -1,13 +1,13 @@
 import { Center, HStack } from "styled-system/jsx";
 import * as Table from "../../../components/ui/table";
 import { Button } from "../../../components/ui/button";
-import { useBooks } from "../hooks/useBooks";
+import { useAllBooks } from "../hooks/useAllBooks";
 import { useDeleteBooks } from "../hooks/useDeleteBooks";
 import { useNavigate } from "react-router-dom";
 
 export default function BooksPage() {
   const navigate = useNavigate();
-  const { data, isLoading, isError, isSuccess } = useBooks();
+  const { data, isLoading, isError, isSuccess } = useAllBooks();
   const deleteBooksMutation = useDeleteBooks();
 
   if (isLoading) return <Center>Loading...</Center>;
@@ -37,7 +37,9 @@ export default function BooksPage() {
               <Table.Cell>{book.title}</Table.Cell>
               <Table.Cell>{book.author?.fullName}</Table.Cell>
               <Table.Cell textAlign="center">
-                <Button>Update</Button>
+                <Button onClick={() => navigate(`/books/update/${book.id}`)}>
+                  Update
+                </Button>
               </Table.Cell>
               <Table.Cell textAlign="center">
                 <Button onClick={() => deleteBooksMutation.mutate(book.id)}>

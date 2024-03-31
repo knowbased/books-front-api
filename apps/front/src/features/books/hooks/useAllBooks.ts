@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Book } from "../dto/book";
 
-export const useBooks = () => {
+export const useAllBooks = () => {
   const booksQuery = useQuery({
     queryKey: ["books"],
     queryFn: async () => {
@@ -11,7 +11,6 @@ export const useBooks = () => {
       const data = await response.json();
       return data as Book[];
     },
-    enabled: true,
   });
 
   return booksQuery;
