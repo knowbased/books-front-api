@@ -4,7 +4,7 @@ import { UpdateBookDto } from './dto/update-book.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Book } from './entities/book.entity';
 import { Repository } from 'typeorm';
-import { AuthorsService } from 'src/authors/authors.service';
+import { AuthorsService } from '../authors/authors.service';
 
 @Injectable()
 export class BooksService {
@@ -21,7 +21,9 @@ export class BooksService {
     book.title = title;
     if (authorId) book.author = await this.authorsService.findOne(authorId);
 
-    return this.booksRepository.save(book);
+    await this.booksRepository.save(book);
+
+    return { message: 'Book created successfully' };
   }
 
   async findAll() {
@@ -52,10 +54,19 @@ export class BooksService {
     if (authorId) book.author = await this.authorsService.findOne(authorId);
     if (title) book.title = title;
 
-    return this.booksRepository.save(book);
+    await this.booksRepository.save(book);
+
+    return book;
   }
 
   async remove(id: number) {
-    return this.booksRepository.delete(id);
+    const isBookExist = await this.booksRepository.exists({ where: { id } });
+
+    if (!isBookExist)
+      throw new NotFoundException(`Book with ID ${id} not found`);
+
+    await this.booksRepository.delete(id);
+
+    return { message: 'Book deleted successfully' };
   }
 }

@@ -43,7 +43,6 @@ export class BooksController {
 
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {
-    await this.booksService.remove(id);
-    return { message: 'Book deleted successfully' };
+    return this.booksService.remove(id);
   }
 }

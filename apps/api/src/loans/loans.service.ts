@@ -3,7 +3,7 @@ import { CreateLoanDto } from './dto/create-loan.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Loan } from './entities/loan.entity';
 import { Repository } from 'typeorm';
-import { BooksService } from 'src/books/books.service';
+import { BooksService } from '../books/books.service';
 
 @Injectable()
 export class LoansService {
