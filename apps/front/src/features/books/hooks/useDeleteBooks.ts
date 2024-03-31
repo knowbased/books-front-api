@@ -8,14 +8,13 @@ export const useDeleteBooks = () => {
     mutationFn: async (id: number) => {
       const response = await fetch(`http://localhost:3000/books/${id}`, {
         method: "DELETE",
-        headers: {},
       });
 
       if (!response.ok) {
         throw new Error(`Failed to delete book with ID ${id}`);
       }
 
-      return Promise.resolve(response.json());
+      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({

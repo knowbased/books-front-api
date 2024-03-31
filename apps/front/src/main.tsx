@@ -8,6 +8,7 @@ import BooksPage from "./features/books/pages/BooksPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ErrorDisplay } from "./features/misc/ErrorDisplay";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import CreateBookPage from "./features/books/pages/CreateBookPage";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "/books",
         element: <BooksPage />,
+      },
+      {
+        path: "/books/create",
+        element: <CreateBookPage />,
       },
     ],
   },

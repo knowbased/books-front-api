@@ -3,8 +3,10 @@ import * as Table from "../../../components/ui/table";
 import { Button } from "../../../components/ui/button";
 import { useBooks } from "../hooks/useBooks";
 import { useDeleteBooks } from "../hooks/useDeleteBooks";
+import { useNavigate } from "react-router-dom";
 
 export default function BooksPage() {
+  const navigate = useNavigate();
   const { data, isLoading, isError, isSuccess } = useBooks();
   const deleteBooksMutation = useDeleteBooks();
 
@@ -16,7 +18,7 @@ export default function BooksPage() {
     <>
       <HStack width="80%" justify="space-between" padding="2">
         <Center>BOOKS</Center>
-        <Button>Create</Button>
+        <Button onClick={() => navigate("/books/create")}>Create</Button>
       </HStack>
 
       <Table.Root maxWidth="4xl">
