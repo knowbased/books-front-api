@@ -38,10 +38,12 @@ export class BooksController {
     @Body(ValidationPipe) updateBookDto: UpdateBookDto,
   ) {
     await this.booksService.update(id, updateBookDto);
+    return { message: 'Book updated successfully' };
   }
 
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {
     await this.booksService.remove(id);
+    return { message: 'Book deleted successfully' };
   }
 }

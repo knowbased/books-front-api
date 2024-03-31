@@ -1,15 +1,16 @@
 import { Center, HStack } from "styled-system/jsx";
 import * as Table from "../../../components/ui/table";
 import { Button } from "../../../components/ui/button";
+import { useBooks } from "../hooks/useBooks";
+import { useDeleteBooks } from "../hooks/useDeleteBooks";
 
 export default function BooksPage() {
-  const booksData = [
-    {
-      id: 1,
-      title: "The Lean Startup",
-      author: "Eric Ries",
-    },
-  ];
+  const { data, isLoading, isError, isSuccess } = useBooks();
+  const deleteBooksMutation = useDeleteBooks();
+
+  if (isLoading) return <Center>Loading...</Center>;
+
+  if (isError || !isSuccess) throw new Error("Failed to load books");
 
   return (
     <>
@@ -19,7 +20,7 @@ export default function BooksPage() {
       </HStack>
 
       <Table.Root maxWidth="4xl">
-        <Table.Caption>Product Inventory</Table.Caption>
+        <Table.Caption>Books Table</Table.Caption>
         <Table.Head>
           <Table.Row>
             <Table.Header>ID</Table.Header>
@@ -28,16 +29,18 @@ export default function BooksPage() {
           </Table.Row>
         </Table.Head>
         <Table.Body>
-          {booksData.map((book, index) => (
+          {data.map((book, index) => (
             <Table.Row key={index}>
               <Table.Cell fontWeight="medium">{book.id}</Table.Cell>
               <Table.Cell>{book.title}</Table.Cell>
-              <Table.Cell>{book.author}</Table.Cell>
+              <Table.Cell>{book.author?.fullName}</Table.Cell>
               <Table.Cell textAlign="center">
                 <Button>Update</Button>
               </Table.Cell>
               <Table.Cell textAlign="center">
-                <Button>Delete</Button>
+                <Button onClick={() => deleteBooksMutation.mutate(book.id)}>
+                  Delete
+                </Button>
               </Table.Cell>
             </Table.Row>
           ))}
