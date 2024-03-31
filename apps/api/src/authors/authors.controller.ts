@@ -19,7 +19,7 @@ export class AuthorsController {
 
   @Post()
   async create(@Body(ValidationPipe) createAuthorDto: CreateAuthorDto) {
-    return this.authorsService.create(createAuthorDto);
+    return await this.authorsService.create(createAuthorDto);
   }
 
   @Get()
@@ -37,11 +37,11 @@ export class AuthorsController {
     @Param('id', ParseIntPipe) id: number,
     @Body(ValidationPipe) updateAuthorDto: UpdateAuthorDto,
   ) {
-    await this.authorsService.update(id, updateAuthorDto);
+    return this.authorsService.update(id, updateAuthorDto);
   }
 
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {
-    await this.authorsService.remove(id);
+    return this.authorsService.remove(id);
   }
 }

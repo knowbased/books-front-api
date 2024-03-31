@@ -15,6 +15,7 @@ export class AuthorsService {
   async create(createAuthorDto: CreateAuthorDto) {
     const author = this.authorsRepository.create(createAuthorDto);
     await this.authorsRepository.save(author);
+    return { message: 'Author created successfully' };
   }
 
   async findAll() {
@@ -35,10 +36,24 @@ export class AuthorsService {
   }
 
   async update(id: number, updateAuthorDto: UpdateAuthorDto) {
-    return await this.authorsRepository.update(id, updateAuthorDto);
+    const isAuthorExist = await this.authorsRepository.existsBy({ id: id });
+
+    if (!isAuthorExist)
+      throw new NotFoundException(`Author with ID ${id} not found`);
+
+    await this.authorsRepository.update(id, updateAuthorDto);
+
+    return { message: 'Author updated successfully' };
   }
 
   async remove(id: number) {
-    return this.authorsRepository.delete(id);
+    const isAuthorExist = await this.authorsRepository.existsBy({ id: id });
+
+    if (!isAuthorExist)
+      throw new NotFoundException(`Author with ID ${id} not found`);
+
+    await this.authorsRepository.delete(id);
+
+    return { message: 'Author deleted successfully' };
   }
 }
