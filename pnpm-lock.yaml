@@ -99,6 +99,7 @@ importers:
       eslint-plugin-react-hooks: ^4.6.0
       eslint-plugin-react-refresh: ^0.4.6
       localforage: ^1.10.0
+      lucide-react: ^0.363.0
       match-sorter: ^6.3.4
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -111,6 +112,7 @@ importers:
       '@tanstack/react-query': 5.28.9_react@18.2.0
       '@tanstack/react-query-devtools': 5.28.10_criec4iqetbab7obgjkxzqwn6a
       localforage: 1.10.0
+      lucide-react: 0.363.0_react@18.2.0
       match-sorter: 6.3.4
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -6028,6 +6030,14 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: 4.0.0
+
+  /lucide-react/0.363.0_react@18.2.0:
+    resolution: {integrity: sha512-AlsfPCsXQyQx7wwsIgzcKOL9LwC498LIMAo+c0Es5PkHJa33xwmYAkkSoKoJWWWSYQEStqu58/jT4tL2gi32uQ==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /magic-string/0.30.5:
     resolution: {integrity: sha512-7xlpfBaQaP/T6Vh8MO/EqXSW5En6INHEvEXQiuff7Gku0PWjU3uf6w/j9o7O+SpB5fOAkrI5HeoNgwjEO0pFsA==}

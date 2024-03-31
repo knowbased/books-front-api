@@ -4,21 +4,43 @@ import { Button } from "../../../components/ui/button";
 import { useAllBooks } from "../hooks/useAllBooks";
 import { useDeleteBooks } from "../hooks/useDeleteBooks";
 import { useNavigate } from "react-router-dom";
+import { Input } from "../../../components/ui/input";
+import { Search } from "lucide-react";
+import { useState } from "react";
 
 export default function BooksPage() {
   const navigate = useNavigate();
   const { data, isLoading, isError, isSuccess } = useAllBooks();
   const deleteBooksMutation = useDeleteBooks();
+  const [searchText, setSearchText] = useState("");
 
   if (isLoading) return <Center>Loading...</Center>;
 
   if (isError || !isSuccess) throw new Error("Failed to load books");
 
+  const filteredData = data.filter((book) => {
+    return Object.values({ ...book, author: book.author?.fullName })
+      .join(" ")
+      .toLowerCase()
+      .includes(searchText.toLowerCase());
+  });
+
   return (
     <>
       <HStack width="80%" justify="space-between" padding="2">
         <Center>BOOKS</Center>
-        <Button onClick={() => navigate("/books/create")}>Create</Button>
+        <HStack gap="5">
+          <HStack gap="1">
+            <Input
+              name="search"
+              type="text"
+              placeholder="Search"
+              onChange={(e) => setSearchText(e.currentTarget.value)}
+            />
+            <Search />
+          </HStack>
+          <Button onClick={() => navigate("/books/create")}>Create</Button>
+        </HStack>
       </HStack>
 
       <Table.Root maxWidth="4xl">
@@ -31,7 +53,7 @@ export default function BooksPage() {
           </Table.Row>
         </Table.Head>
         <Table.Body>
-          {data.map((book, index) => (
+          {filteredData.map((book, index) => (
             <Table.Row
               key={index}
               onClick={() => navigate(`/books/${book.id}`)}
