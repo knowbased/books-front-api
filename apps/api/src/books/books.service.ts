@@ -3,15 +3,15 @@ import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Book } from './entities/book.entity';
-import { EntityManager, Repository } from 'typeorm';
-import { Author } from 'src/authors/entities/author.entity';
+import { Repository } from 'typeorm';
+import { AuthorsService } from 'src/authors/authors.service';
 
 @Injectable()
 export class BooksService {
   constructor(
     @InjectRepository(Book)
     private readonly booksRepository: Repository<Book>,
-    private readonly entityManager: EntityManager,
+    private readonly authorsService: AuthorsService,
   ) {}
 
   async create(createBookDto: CreateBookDto) {
@@ -19,18 +19,9 @@ export class BooksService {
 
     const book = new Book();
     book.title = title;
+    if (authorId) book.author = await this.authorsService.findOne(authorId);
 
-    const author = await this.entityManager.findOneOrFail(Author, {
-      where: { id: authorId },
-    });
-
-    if (!author) {
-      throw new NotFoundException(`Author with ID ${authorId} not found`);
-    }
-
-    book.author = author;
-
-    return this.entityManager.save(Book, book);
+    return this.booksRepository.save(book);
   }
 
   async findAll() {
@@ -40,38 +31,28 @@ export class BooksService {
   }
 
   async findOne(id: number) {
-    return this.booksRepository.findOne({
+    const book = await this.booksRepository.findOne({
       where: {
         id: id,
       },
       relations: { author: true },
     });
+
+    if (!book) throw new NotFoundException(`Book with ID ${id} not found`);
+
+    return book;
   }
 
   async update(id: number, updateBookDto: UpdateBookDto): Promise<Book> {
     const { title, authorId } = updateBookDto;
 
-    const book = await this.entityManager.findOne(Book, { where: { id } });
-    if (!book) {
-      throw new NotFoundException(`Book with ID ${id} not found`);
-    }
+    const book = await this.booksRepository.findOne({ where: { id } });
+    if (!book) throw new NotFoundException(`Book with ID ${id} not found`);
 
-    if (authorId) {
-      const author = await this.entityManager.findOne(Author, {
-        where: { id: authorId },
-      });
+    if (authorId) book.author = await this.authorsService.findOne(authorId);
+    if (title) book.title = title;
 
-      if (!author) {
-        throw new NotFoundException(`Author with ID ${authorId} not found`);
-      }
-      book.author = author;
-    }
-
-    if (title) {
-      book.title = title;
-    }
-
-    return this.entityManager.save(Book, book);
+    return this.booksRepository.save(book);
   }
 
   async remove(id: number) {

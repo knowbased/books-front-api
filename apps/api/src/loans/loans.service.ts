@@ -2,15 +2,15 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateLoanDto } from './dto/create-loan.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Loan } from './entities/loan.entity';
-import { EntityManager, Repository } from 'typeorm';
-import { Book } from 'src/books/entities/book.entity';
+import { Repository } from 'typeorm';
+import { BooksService } from 'src/books/books.service';
 
 @Injectable()
 export class LoansService {
   constructor(
     @InjectRepository(Loan)
     private readonly loansRepository: Repository<Loan>,
-    private readonly entityManager: EntityManager,
+    private readonly booksService: BooksService,
   ) {}
 
   async create(createLoanDto: CreateLoanDto) {
@@ -20,13 +20,7 @@ export class LoansService {
     loan.dueDate = dueDate;
     loan.userName = userName;
 
-    const book = await this.entityManager.findOneOrFail(Book, {
-      where: { id: bookId },
-    });
-
-    if (!book) throw new NotFoundException('Loan not found');
-
-    loan.book = book;
+    loan.book = await this.booksService.findOne(bookId);
 
     return this.loansRepository.save(loan);
   }
