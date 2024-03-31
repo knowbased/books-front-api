@@ -32,17 +32,30 @@ export default function BooksPage() {
         </Table.Head>
         <Table.Body>
           {data.map((book, index) => (
-            <Table.Row key={index}>
+            <Table.Row
+              key={index}
+              onClick={() => navigate(`/books/${book.id}`)}
+            >
               <Table.Cell fontWeight="medium">{book.id}</Table.Cell>
               <Table.Cell>{book.title}</Table.Cell>
               <Table.Cell>{book.author?.fullName}</Table.Cell>
               <Table.Cell textAlign="center">
-                <Button onClick={() => navigate(`/books/update/${book.id}`)}>
+                <Button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/books/update/${book.id}`);
+                  }}
+                >
                   Update
                 </Button>
               </Table.Cell>
               <Table.Cell textAlign="center">
-                <Button onClick={() => deleteBooksMutation.mutate(book.id)}>
+                <Button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteBooksMutation.mutate(book.id);
+                  }}
+                >
                   Delete
                 </Button>
               </Table.Cell>
