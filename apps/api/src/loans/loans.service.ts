@@ -22,7 +22,8 @@ export class LoansService {
 
     loan.book = await this.booksService.findOne(bookId);
 
-    return this.loansRepository.save(loan);
+    await this.loansRepository.save(loan);
+    return { message: 'Loan created successfully' };
   }
 
   async findAll(): Promise<Loan[]> {
@@ -31,7 +32,7 @@ export class LoansService {
     });
   }
 
-  async returnLoan(id: number): Promise<Loan> {
+  async returnLoan(id: number) {
     const loan = await this.loansRepository.findOne({
       where: {
         id: id,
@@ -43,6 +44,8 @@ export class LoansService {
     }
 
     loan.returnDate = new Date();
-    return this.loansRepository.save(loan);
+    await this.loansRepository.save(loan);
+
+    return { message: 'Loan returned successfully' };
   }
 }
