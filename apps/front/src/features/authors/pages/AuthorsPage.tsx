@@ -7,6 +7,8 @@ import { Search } from "lucide-react";
 import { useState } from "react";
 import { useAllAuthors } from "../hooks/useAllAuthors";
 import { useDeleteAuthor } from "../hooks/useDeleteAuthor";
+import { isTextIncludedInData } from "../../../utils/isTextIncludeInData";
+import { Author } from "../dto/author";
 
 export default function AuthorsPage() {
   const navigate = useNavigate();
@@ -19,10 +21,10 @@ export default function AuthorsPage() {
   if (isError || !isSuccess) throw new Error("Cannot fetch authors data");
 
   const filteredData = data.filter((author) => {
-    return Object.values(author)
-      .join(" ")
-      .toLowerCase()
-      .includes(searchText.toLowerCase());
+    const { fullName } = author;
+    return isTextIncludedInData<Author>(searchText, {
+      fullName,
+    });
   });
 
   return (

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Input } from "../../../components/ui/input";
 import { Search } from "lucide-react";
 import { useState } from "react";
+import { isTextIncludedInData } from "../../../utils/isTextIncludeInData";
 
 export default function BooksPage() {
   const navigate = useNavigate();
@@ -19,10 +20,11 @@ export default function BooksPage() {
   if (isError || !isSuccess) throw new Error("Failed to load books");
 
   const filteredData = data.filter((book) => {
-    return Object.values({ ...book, author: book.author?.fullName })
-      .join(" ")
-      .toLowerCase()
-      .includes(searchText.toLowerCase());
+    const { title, author } = book;
+    return isTextIncludedInData(searchText, {
+      title,
+      fullName: author?.fullName,
+    });
   });
 
   return (

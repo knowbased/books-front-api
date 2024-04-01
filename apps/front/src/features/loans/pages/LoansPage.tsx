@@ -7,6 +7,7 @@ import { Search } from "lucide-react";
 import { useState } from "react";
 import { useAllLoans } from "../hooks/useAllLoans";
 import { useReturnLoan } from "../hooks/useReturnLoan";
+import { isTextIncludedInData } from "../../../utils/isTextIncludeInData";
 
 export default function LoansPage() {
   const navigate = useNavigate();
@@ -19,13 +20,11 @@ export default function LoansPage() {
   if (isError || !isSuccess) throw new Error("Failed to load books");
 
   const filteredData = data.filter((loan) => {
-    return Object.values({
-      bookTitle: loan.book.title,
-      username: loan.userName,
-    })
-      .join(" ")
-      .toLowerCase()
-      .includes(searchText.toLowerCase());
+    const { book, userName } = loan;
+    return isTextIncludedInData(searchText, {
+      bookTitle: book.title,
+      userName,
+    });
   });
 
   return (

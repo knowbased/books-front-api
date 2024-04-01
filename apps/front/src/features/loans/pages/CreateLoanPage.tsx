@@ -59,6 +59,7 @@ export default function CreateLoanPage() {
                   name="username"
                   type="text"
                   placeholder="Username"
+                  required
                 />
               </Stack>
               <Stack gap="1.5" width="full">
@@ -68,6 +69,7 @@ export default function CreateLoanPage() {
                   name="dueDate"
                   type="date"
                   placeholder="Due Date"
+                  required
                 />
               </Stack>
               <Button type="submit" alignSelf="flex-end">
