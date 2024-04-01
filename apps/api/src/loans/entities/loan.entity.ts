@@ -16,5 +16,5 @@ export class Loan {
   dueDate: Date;
 
   @Column({ nullable: true })
-  returnDate: Date | null;
+  returnDate?: Date;
 }

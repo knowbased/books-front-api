@@ -10,6 +10,6 @@ export const loansMock: Loan[] = [
     },
     userName: 'User Name',
     dueDate: new Date(),
-    returnDate: null,
+    returnDate: undefined,
   },
 ];

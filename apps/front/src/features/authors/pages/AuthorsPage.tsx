@@ -1,25 +1,25 @@
 import { Center, HStack } from "styled-system/jsx";
 import * as Table from "../../../components/ui/table";
 import { Button } from "../../../components/ui/button";
-import { useAllBooks } from "../hooks/useAllBooks";
-import { useDeleteBooks } from "../hooks/useDeleteBooks";
 import { useNavigate } from "react-router-dom";
 import { Input } from "../../../components/ui/input";
 import { Search } from "lucide-react";
 import { useState } from "react";
+import { useAllAuthors } from "../hooks/useAllAuthors";
+import { useDeleteAuthor } from "../hooks/useDeleteAuthor";
 
-export default function BooksPage() {
+export default function AuthorsPage() {
   const navigate = useNavigate();
-  const { data, isLoading, isError, isSuccess } = useAllBooks();
-  const deleteBooksMutation = useDeleteBooks();
   const [searchText, setSearchText] = useState("");
+  const { isLoading, isError, isSuccess, data } = useAllAuthors();
+  const deleteAuthorMutation = useDeleteAuthor();
 
-  if (isLoading) return <Center>Loading...</Center>;
+  if (isLoading) return <div>Loading...</div>;
 
-  if (isError || !isSuccess) throw new Error("Failed to load books");
+  if (isError || !isSuccess) throw new Error("Cannot fetch authors data");
 
-  const filteredData = data.filter((book) => {
-    return Object.values({ ...book, author: book.author?.fullName })
+  const filteredData = data.filter((author) => {
+    return Object.values(author)
       .join(" ")
       .toLowerCase()
       .includes(searchText.toLowerCase());
@@ -28,7 +28,7 @@ export default function BooksPage() {
   return (
     <>
       <HStack width="80%" justify="space-between" padding="2">
-        <Center>BOOKS</Center>
+        <Center>AUTHORS</Center>
         <HStack gap="5">
           <HStack gap="1">
             <Input
@@ -39,33 +39,31 @@ export default function BooksPage() {
             />
             <Search />
           </HStack>
-          <Button onClick={() => navigate("/books/create")}>Create</Button>
+          <Button onClick={() => navigate("/authors/create")}>Create</Button>
         </HStack>
       </HStack>
 
       <Table.Root maxWidth="4xl">
-        <Table.Caption>Books Table</Table.Caption>
+        <Table.Caption>Authors Table</Table.Caption>
         <Table.Head>
           <Table.Row>
             <Table.Header>ID</Table.Header>
-            <Table.Header>Title</Table.Header>
-            <Table.Header>Author</Table.Header>
+            <Table.Header>Full name</Table.Header>
           </Table.Row>
         </Table.Head>
         <Table.Body>
-          {filteredData.map((book, index) => (
+          {filteredData.map((author, index) => (
             <Table.Row
               key={index}
-              onClick={() => navigate(`/books/${book.id}`)}
+              onClick={() => navigate(`/authors/${author.id}`)}
             >
-              <Table.Cell fontWeight="medium">{book.id}</Table.Cell>
-              <Table.Cell>{book.title}</Table.Cell>
-              <Table.Cell>{book.author?.fullName}</Table.Cell>
+              <Table.Cell fontWeight="medium">{author.id}</Table.Cell>
+              <Table.Cell>{author.fullName}</Table.Cell>
               <Table.Cell textAlign="center">
                 <Button
                   onClick={(e) => {
                     e.stopPropagation();
-                    navigate(`/books/${book.id}/update`);
+                    navigate(`/authors/${author.id}/update`);
                   }}
                 >
                   Update
@@ -75,7 +73,7 @@ export default function BooksPage() {
                 <Button
                   onClick={(e) => {
                     e.stopPropagation();
-                    deleteBooksMutation.mutate(book.id);
+                    deleteAuthorMutation.mutate(author.id);
                   }}
                 >
                   Delete

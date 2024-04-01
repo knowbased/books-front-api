@@ -1,34 +1,31 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export type UpdateBookPayload = {
-  bookId: number;
-} & Partial<{
-  title: string;
-  authorId?: number;
-}>;
+export type UpdateAuthorPayload = {
+  authorsId: number;
+  fullName: string;
+};
 
-export const useUpdateBook = () => {
+export const useUpdateAuthor = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (updateBookPayload: UpdateBookPayload) => {
+    mutationFn: async (updateAuthorPayload: UpdateAuthorPayload) => {
       const response = await fetch(
-        `http://localhost:3000/books/${updateBookPayload.bookId}`,
+        `http://localhost:3000/authors/${updateAuthorPayload.authorsId}`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            title: updateBookPayload.title,
-            authorId: updateBookPayload.authorId,
+            fullName: updateAuthorPayload.fullName,
           }),
-        },
+        }
       );
 
       if (!response.ok) {
         throw new Error(
-          `Failed to update book with ID ${updateBookPayload.bookId}`,
+          `Failed to update author with ID ${updateAuthorPayload.authorsId}`
         );
       }
 
@@ -36,7 +33,7 @@ export const useUpdateBook = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["books"],
+        queryKey: ["authors"],
       });
     },
   });

@@ -26,7 +26,9 @@ export const MainLayout = () => {
             </Link>
           </li>
           <li>
-            <Button>Authors</Button>
+            <Link to="authors">
+              <Button>Authors</Button>
+            </Link>
           </li>
           <li>
             <Button>Loans</Button>

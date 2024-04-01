@@ -11,6 +11,10 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import CreateBookPage from "./features/books/pages/CreateBookPage";
 import UpdateBookPage from "./features/books/pages/UpdateBookPage";
 import BookDetailsPage from "./features/books/pages/BookDetailsPage";
+import AuthorsPage from "./features/authors/pages/AuthorsPage";
+import CreateAuthorPage from "./features/authors/pages/CreateAuthorPage";
+import UpdateAuthorPage from "./features/authors/pages/UpdateAuthorPage";
+import AuthorDetailsPage from "./features/authors/pages/AuthorDetailsPage";
 
 const queryClient = new QueryClient();
 
@@ -33,12 +37,28 @@ const router = createBrowserRouter([
         element: <CreateBookPage />,
       },
       {
-        path: "/books/update/:id",
+        path: "/books/:id/update",
         element: <UpdateBookPage />,
       },
       {
         path: "/books/:id",
         element: <BookDetailsPage />,
+      },
+      {
+        path: "/authors",
+        element: <AuthorsPage />,
+      },
+      {
+        path: "/authors/create",
+        element: <CreateAuthorPage />,
+      },
+      {
+        path: "/authors/:id/update",
+        element: <UpdateAuthorPage />,
+      },
+      {
+        path: "/authors/:id",
+        element: <AuthorDetailsPage />,
       },
     ],
   },
