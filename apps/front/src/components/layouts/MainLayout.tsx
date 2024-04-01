@@ -31,7 +31,9 @@ export const MainLayout = () => {
             </Link>
           </li>
           <li>
-            <Button>Loans</Button>
+            <Link to="loans">
+              <Button>Loans</Button>
+            </Link>
           </li>
         </ul>
       </HStack>

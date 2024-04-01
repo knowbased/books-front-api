@@ -11,8 +11,6 @@ export default function AuthorDetailsPage() {
 
   if (isError || !isSuccess) throw new Error("Failed to load book");
 
-  console.log(data);
-
   return (
     <>
       <Center>

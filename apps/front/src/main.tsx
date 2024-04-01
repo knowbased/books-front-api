@@ -15,6 +15,8 @@ import AuthorsPage from "./features/authors/pages/AuthorsPage";
 import CreateAuthorPage from "./features/authors/pages/CreateAuthorPage";
 import UpdateAuthorPage from "./features/authors/pages/UpdateAuthorPage";
 import AuthorDetailsPage from "./features/authors/pages/AuthorDetailsPage";
+import LoansPage from "./features/loans/pages/LoansPage";
+import CreateLoanPage from "./features/loans/pages/CreateLoanPage";
 
 const queryClient = new QueryClient();
 
@@ -59,6 +61,14 @@ const router = createBrowserRouter([
       {
         path: "/authors/:id",
         element: <AuthorDetailsPage />,
+      },
+      {
+        path: "/loans",
+        element: <LoansPage />,
+      },
+      {
+        path: "/loans/create",
+        element: <CreateLoanPage />,
       },
     ],
   },
