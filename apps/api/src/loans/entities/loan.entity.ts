@@ -6,7 +6,10 @@ export class Loan {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Book)
+  @ManyToOne(() => Book, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   book: Book;
 
   @Column()

@@ -20,12 +20,12 @@ export const useUpdateAuthor = () => {
           body: JSON.stringify({
             fullName: updateAuthorPayload.fullName,
           }),
-        }
+        },
       );
 
       if (!response.ok) {
         throw new Error(
-          `Failed to update author with ID ${updateAuthorPayload.authorsId}`
+          `Failed to update author with ID ${updateAuthorPayload.authorsId}`,
         );
       }
 

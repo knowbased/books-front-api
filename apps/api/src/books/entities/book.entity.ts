@@ -9,6 +9,6 @@ export class Book {
   @Column()
   title: string;
 
-  @ManyToOne(() => Author, (author) => author.books)
+  @ManyToOne(() => Author, (author) => author.books, { onDelete: 'SET NULL' })
   author?: Author;
 }
