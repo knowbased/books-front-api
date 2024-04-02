@@ -6,9 +6,12 @@ export const useDeleteAuthor = () => {
   return useMutation({
     mutationKey: ["deleteAuthor"],
     mutationFn: async (id: number) => {
-      const response = await fetch(`http://localhost:3000/authors/${id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/authors/${id}`,
+        {
+          method: "DELETE",
+        },
+      );
 
       if (!response.ok) {
         throw new Error(`Failed to delete authors with ID ${id}`);

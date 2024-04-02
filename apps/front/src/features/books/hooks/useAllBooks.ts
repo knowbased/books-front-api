@@ -5,7 +5,7 @@ export const useAllBooks = () => {
   const booksQuery = useQuery({
     queryKey: ["books"],
     queryFn: async () => {
-      const response = await fetch("http://localhost:3000/books", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/books`, {
         headers: {},
       });
       const data = await response.json();

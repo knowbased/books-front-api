@@ -6,9 +6,12 @@ export const useReturnLoan = () => {
   return useMutation({
     mutationKey: ["returnLoan"],
     mutationFn: async (id: number) => {
-      const response = await fetch(`http://localhost:3000/loans/${id}/return`, {
-        method: "PATCH",
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/loans/${id}/return`,
+        {
+          method: "PATCH",
+        },
+      );
 
       if (!response.ok) {
         throw new Error(`Failed to returned loan with ID ${id}`);

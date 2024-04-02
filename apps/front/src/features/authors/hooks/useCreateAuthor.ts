@@ -9,7 +9,7 @@ export const useCreateAuthor = () => {
 
   return useMutation({
     mutationFn: async (createAuthorPayload: CreateAuthorPayload) => {
-      const response = await fetch(`http://localhost:3000/authors`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/authors`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -13,7 +13,7 @@ export const useUpdateBook = () => {
   return useMutation({
     mutationFn: async (updateBookPayload: UpdateBookPayload) => {
       const response = await fetch(
-        `http://localhost:3000/books/${updateBookPayload.bookId}`,
+        `${import.meta.env.VITE_API_URL}/books/${updateBookPayload.bookId}`,
         {
           method: "PATCH",
           headers: {

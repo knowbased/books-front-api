@@ -11,7 +11,7 @@ export const useUpdateAuthor = () => {
   return useMutation({
     mutationFn: async (updateAuthorPayload: UpdateAuthorPayload) => {
       const response = await fetch(
-        `http://localhost:3000/authors/${updateAuthorPayload.authorsId}`,
+        `${import.meta.env.VITE_API_URL}/authors/${updateAuthorPayload.authorsId}`,
         {
           method: "PATCH",
           headers: {

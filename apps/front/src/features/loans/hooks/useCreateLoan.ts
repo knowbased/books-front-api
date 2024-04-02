@@ -11,7 +11,7 @@ export const useCreateLoan = () => {
 
   return useMutation({
     mutationFn: async (createLoanPayload: CreateLoanPayload) => {
-      const response = await fetch(`http://localhost:3000/loans`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/loans`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

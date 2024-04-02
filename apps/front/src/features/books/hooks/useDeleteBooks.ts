@@ -6,9 +6,12 @@ export const useDeleteBooks = () => {
   return useMutation({
     mutationKey: ["deleteBooks"],
     mutationFn: async (id: number) => {
-      const response = await fetch(`http://localhost:3000/books/${id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/books/${id}`,
+        {
+          method: "DELETE",
+        },
+      );
 
       if (!response.ok) {
         throw new Error(`Failed to delete book with ID ${id}`);
